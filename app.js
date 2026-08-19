@@ -23,3 +23,9 @@ app.get('/home', (req, res) => {
 app.get('/login', (req, res) => {
     res.render("login.ejs");
 });
+app.get('/register', (req, res) => {
+    res.render("signup.ejs");
+});
+app.get('/dashboard', (req, res) => {
+    res.render("dashboard.ejs");
+});

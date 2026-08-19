@@ -1,0 +1,116 @@
+<% layout('layouts/boilerplate') %>
+<div class="light-dashboard">
+  
+  <!-- Left Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      Citizen Portal
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="/dashboard" style="background-color: #ffffff; color: #00d4ff; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">Dashboard Overview</a></li>
+      <li><a href="/lodge-grievance">Lodge Public Grievance</a></li>
+      <li><a href="/account-activity">Account Activity</a></li>
+      <li><a href="/edit-profile">Edit Profile</a></li>
+      <li><a href="/change-password">Change Password</a></li>
+      <li class="signout-item"><a href="/signout">Sign Out</a></li>
+    </ul>
+    
+  </aside>
+
+  <!-- Right Main Content -->
+  <main class="main-content">
+    <h1 class="page-title">Grievance Dashboard</h1>
+
+    <!-- Stats Board -->
+    <div class="stats-board">
+      <div class="stat-card stat-total">
+        <span class="stat-title">Total Registered</span>
+        <h2 class="stat-number">24</h2>
+      </div>
+      <div class="stat-card stat-pending">
+        <span class="stat-title">Action Pending</span>
+        <h2 class="stat-number">5</h2>
+      </div>
+      <div class="stat-card stat-resolved">
+        <span class="stat-title">Resolved</span>
+        <h2 class="stat-number">18</h2>
+      </div>
+      <div class="stat-card stat-escalated">
+        <span class="stat-title">Escalated</span>
+        <h2 class="stat-number">1</h2>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+      
+      <!-- Grievances List Panel -->
+      <div class="content-panel">
+        <h2 class="panel-title">My Grievances</h2>
+        <div style="overflow-x: auto;">
+          <table class="grievance-table">
+            <thead>
+              <tr>
+                <th>Reference ID</th>
+                <th>Filed On</th>
+                <th>Subject Matter</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#GRV-1045</td>
+                <td>Aug 18, 2026</td>
+                <td>Traffic light malfunction at 5th Ave</td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td>#GRV-1042</td>
+                <td>Aug 10, 2026</td>
+                <td>Illegal dumping in municipal park</td>
+                <td><span class="status-badge status-escalated">Escalated</span></td>
+              </tr>
+              <tr>
+                <td>#GRV-0988</td>
+                <td>Jul 05, 2026</td>
+                <td>Water supply contamination issue</td>
+                <td><span class="status-badge status-resolved">Resolved</span></td>
+              </tr>
+              <tr>
+                <td>#GRV-0850</td>
+                <td>Jun 22, 2026</td>
+                <td>Pothole repair request (Sector 4)</td>
+                <td><span class="status-badge status-resolved">Resolved</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Activity Feed Panel -->
+      <div class="content-panel">
+        <h2 class="panel-title">System Activity</h2>
+        <ul class="activity-list">
+          <li class="activity-item">
+            <span class="activity-desc"><strong>#GRV-1042</strong> was escalated to higher authorities.</span>
+            <span class="activity-time">2 hours ago</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-desc">Your profile information was updated successfully.</span>
+            <span class="activity-time">Yesterday</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-desc"><strong>#GRV-0988</strong> has been marked as resolved by the municipality.</span>
+            <span class="activity-time">Jul 12, 2026</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-desc">Successful login from a new device detected.</span>
+            <span class="activity-time">Jul 10, 2026</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+</div>
