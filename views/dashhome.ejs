@@ -1,0 +1,182 @@
+<% layout('layouts/boilerplate') %>
+
+<% 
+  // EJS Variables for Dashboard Data
+  const stats = locals.stats || {
+    reported: { count: "1,186", trend: "16.2%", up: true },
+    resolved: { count: "742", trend: "19.8%", up: true },
+    progress: { count: "329", trend: "5.6%", up: false },
+    participants: { count: "3,842", trend: "14.3%", up: true },
+    budget: { count: "₹ 2.36 Cr", trend: "21.7%", up: true }
+  };
+
+  const locations = locals.locations || [
+    { name: "HSR Layout, Bengaluru", count: 96 },
+    { name: "Kukatpally, Hyderabad", count: 67 },
+    { name: "Gachibowli, Hyderabad", count: 54 },
+    { name: "Madhapur, Hyderabad", count: 32 }
+  ];
+
+  const budgetProposals = locals.budgetProposals || [
+    { id: 1, title: "Road Resurfacing - 5th Main", category: "Roads & Infra", cost: "₹ 45 L", votes: 452, percent: 75 },
+    { id: 2, title: "New Public Washrooms", category: "Sanitation", cost: "₹ 15 L", votes: 310, percent: 52 },
+    { id: 3, title: "Water Pipe Upgrades", category: "Water Supply", cost: "₹ 80 L", votes: 280, percent: 45 }
+  ];
+%>
+
+<div class="dashboard">
+  
+  <!-- TOP METRICS -->
+  <div class="metrics-grid">
+    <div class="metric-card" style="border-top: 4px solid var(--c-green);">
+      <div class="metric-header">
+        <span class="metric-title">Issues Reported</span>
+        <div class="metric-icon" style="background: #dcfce7; color: var(--c-green);">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+      </div>
+      <div class="metric-value"><%= stats.reported.count %></div>
+      <div class="metric-trend" style="color: var(--c-green);">
+        <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        <%= stats.reported.trend %> from last month
+      </div>
+    </div>
+
+    <div class="metric-card" style="border-top: 4px solid var(--c-blue);">
+      <div class="metric-header">
+        <span class="metric-title">Issues Resolved</span>
+        <div class="metric-icon" style="background: #dbeafe; color: var(--c-blue);">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+      <div class="metric-value"><%= stats.resolved.count %></div>
+      <div class="metric-trend" style="color: var(--c-green);">
+        <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        <%= stats.resolved.trend %> from last month
+      </div>
+    </div>
+
+    <div class="metric-card" style="border-top: 4px solid var(--c-yellow);">
+      <div class="metric-header">
+        <span class="metric-title">In Progress</span>
+        <div class="metric-icon" style="background: #fef3c7; color: var(--c-yellow);">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+      <div class="metric-value"><%= stats.progress.count %></div>
+      <div class="metric-trend" style="color: var(--c-red);">
+        <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+        <%= stats.progress.trend %> from last month
+      </div>
+    </div>
+
+    <div class="metric-card" style="border-top: 4px solid var(--c-purple);">
+      <div class="metric-header">
+        <span class="metric-title">Active Participants</span>
+        <div class="metric-icon" style="background: #ede9fe; color: var(--c-purple);">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </div>
+      </div>
+      <div class="metric-value"><%= stats.participants.count %></div>
+      <div class="metric-trend" style="color: var(--c-green);">
+        <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        <%= stats.participants.trend %> from last month
+      </div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    
+    <!-- LEFT COLUMN -->
+    <div>
+      
+      <!-- Issues by Category (Pure CSS Chart) -->
+      <div class="panel">
+        <h3 class="panel-title">Issues by Category</h3>
+        <div class="chart-container">
+          <div class="donut-chart">
+            <div class="donut-hole">
+              <span class="donut-total">1,186</span>
+              <span class="donut-label">Total</span>
+            </div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span><span class="legend-color" style="background: var(--c-green);"></span>Roads & Infra</span>
+              <span>31%</span>
+            </div>
+            <div class="legend-item">
+              <span><span class="legend-color" style="background: var(--c-blue);"></span>Water Supply</span>
+              <span>19%</span>
+            </div>
+            <div class="legend-item">
+              <span><span class="legend-color" style="background: var(--c-yellow);"></span>Sanitation</span>
+              <span>15%</span>
+            </div>
+            <div class="legend-item">
+              <span><span class="legend-color" style="background: var(--c-purple);"></span>Street Lights</span>
+              <span>12%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issues by Location List -->
+      <div class="panel">
+        <h3 class="panel-title">Issues by Location</h3>
+        <div class="location-list">
+          <% locations.forEach(function(loc) { %>
+            <div class="location-item">
+              <div class="loc-name">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <%= loc.name %>
+              </div>
+              <div class="loc-count"><%= loc.count %></div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      
+      <!-- Participatory Budgeting -->
+      <div class="panel">
+        <h3 class="panel-title">Participatory Budgeting Proposals</h3>
+        <div class="voting-list">
+          
+          <% budgetProposals.forEach(function(proposal) { %>
+            <div class="vote-card">
+              <div class="vote-details">
+                <div class="vote-header">
+                  <h4 class="vote-title"><%= proposal.title %></h4>
+                  <span class="vote-category"><%= proposal.category %></span>
+                </div>
+                <div class="vote-cost">Estimated Cost: <strong><%= proposal.cost %></strong></div>
+                
+                <div class="progress-wrap">
+                  <div class="progress-bar">
+                    <div class="progress-fill" ></div>
+                  </div>
+                  <span class="progress-text"><%= proposal.percent %>%</span>
+                </div>
+              </div>
+              
+              <div class="vote-action">
+                <div class="vote-count">
+                  <span class="vote-number"><%= proposal.votes %></span>
+                  <span class="vote-label">Votes</span>
+                </div>
+                <button class="btn-vote">Vote</button>
+              </div>
+            </div>
+          <% }) %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

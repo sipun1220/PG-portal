@@ -1,0 +1,273 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="premium-grievance-wrapper">
+  <div class="app-card">
+    
+    <div class="card-header">
+      <h1>Civic Grievance Portal</h1>
+      <p>Submit and track municipal issues in your area.</p>
+    </div>
+
+    <form class="form-body" id="grievanceForm" action="/submit-grievance" method="POST" enctype="multipart/form-data">
+      
+      <!-- 1. Category & Details -->
+      <div class="section-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        1. Issue Details
+      </div>
+      
+      <div class="form-row">
+        <div>
+          <label for="category">Issue Category <span>*</span></label>
+          <select id="category" name="category" required>
+            <option value="" disabled selected>Select Category...</option>
+            <option value="water">Water & Sanitation</option>
+            <option value="road">Roads & Traffic</option>
+            <option value="electricity">Electricity</option>
+            <option value="development">Civic Development</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="type">Issue Type <span>*</span></label>
+          <select id="type" name="type" required disabled>
+            <option value="" disabled selected>Waiting for category...</option>
+            <option value="personal">Personal Request</option>
+            <option value="public">Public Nuisance / Issue</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 2rem;">
+        <label for="description">Detailed Description <span>*</span></label>
+        <textarea id="description" name="description" required placeholder="Please describe the exact nature of the problem..."></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 2. Evidence -->
+      <div class="section-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        2. Digital Evidence
+      </div>
+      
+      <div class="form-row">
+        <div>
+          <label>Upload Image</label>
+          <div class="file-upload-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span class="file-label-text">Click or Drag Image Here</span>
+            <input type="file" name="image" accept="image/*">
+          </div>
+          <span class="hint">Upload evidence of the issue from your device.</span>
+        </div>
+        <div>
+          <label>Live Capture</label>
+          <div class="file-upload-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+            <span class="file-label-text">Tap to Open Camera</span>
+            <input type="file" name="realTimeImage" accept="image/*" capture="environment">
+          </div>
+          <span class="hint">Take a real-time photo for verification.</span>
+        </div>
+      </div>
+      
+      <div style="margin-top: 1rem;">
+        <label>Voice Note (Optional)</label>
+        <button type="button" class="btn btn-outline" id="recordBtn" style="width: 100%;">
+          <span id="recordIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+          </span>
+          <span id="recordText">Tap to Record Audio Message</span>
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 3. Location & GPS -->
+      <div class="section-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+        3. Location Mapping
+      </div>
+      
+      <div class="form-row">
+        <div>
+          <label>State <span>*</span></label>
+          <select id="state" name="state" required>
+            <option value="" disabled selected>Select State</option>
+            <option value="s1">State 1</option>
+          </select>
+        </div>
+        <div>
+          <label>District <span>*</span></label>
+          <select id="district" name="district" required disabled>
+            <option value="" disabled selected>Select District</option>
+            <option value="d1">District 1</option>
+          </select>
+        </div>
+        <div>
+          <label>Block <span>*</span></label>
+          <select id="block" name="block" required disabled>
+            <option value="" disabled selected>Select Block</option>
+            <option value="b1">Block 1</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Pinpoint Location on Map</label>
+      <div id="mapContainer" class="map-box"></div>
+      
+      <div class="form-row" style="margin-bottom: 0;">
+        <div style="flex: 2;">
+          <input type="text" id="gpsData" class="readonly-input" readonly placeholder="Waiting for GPS lock...">
+          <input type="hidden" id="lat" name="latitude">
+          <input type="hidden" id="lng" name="longitude">
+        </div>
+        <div style="flex: 1;">
+          <button type="button" class="btn btn-outline" id="gpsBtn" style="width: 100%; height: 100%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+            Auto-Locate
+          </button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 4. System Info -->
+      <div class="section-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        4. System Generated
+      </div>
+      
+      <div class="form-row">
+        <div>
+          <label>Timestamp</label>
+          <input type="text" value="<%= new Date().toLocaleString() %>" class="readonly-input" readonly>
+        </div>
+        <div>
+          <label>Generated Grievance ID</label>
+          <input type="text" value="<%= 'ID-' + Math.random().toString(36).substr(2, 9).toUpperCase() %>" class="readonly-input" readonly>
+        </div>
+      </div>
+
+      <!-- Form Actions / Buttons Container -->
+      <div class="form-actions">
+        <button type="reset" class="btn btn-outline" id="clearBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Clear Form
+        </button>
+        <button type="submit" class="btn btn-submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Submit Grievance
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // Dropdown Logic
+    const category = document.getElementById('category');
+    const type = document.getElementById('type');
+    category.addEventListener('change', () => {
+      type.disabled = false;
+      type.options[0].text = "Select Type...";
+    });
+
+    const state = document.getElementById('state');
+    const district = document.getElementById('district');
+    const block = document.getElementById('block');
+    state.addEventListener('change', () => { district.disabled = false; block.disabled = true; });
+    district.addEventListener('change', () => { block.disabled = false; });
+
+    // Map Logic
+    const map = L.map('mapContainer').setView([20.5937, 78.9629], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    
+    let marker;
+    const gpsData = document.getElementById('gpsData');
+    const latInput = document.getElementById('lat');
+    const lngInput = document.getElementById('lng');
+
+    function updatePin(lat, lng) {
+      if(marker) {
+        marker.setLatLng([lat, lng]);
+      } else {
+        marker = L.marker([lat, lng], {draggable: true}).addTo(map);
+        marker.on('dragend', (e) => {
+          const pos = marker.getLatLng();
+          updatePin(pos.lat, pos.lng);
+        });
+      }
+      latInput.value = lat;
+      lngInput.value = lng;
+      gpsData.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    }
+
+    map.on('click', (e) => updatePin(e.latlng.lat, e.latlng.lng));
+
+    document.getElementById('gpsBtn').addEventListener('click', () => {
+      gpsData.value = "Locating via satellite...";
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const { latitude, longitude } = pos.coords;
+        map.setView([latitude, longitude], 16);
+        updatePin(latitude, longitude);
+      }, () => {
+        gpsData.value = "GPS access denied. Click map manually.";
+      });
+    });
+
+    // Auto trigger GPS on load
+    document.getElementById('gpsBtn').click();
+
+    // SVG Voice UI Simulation
+    const recordBtn = document.getElementById('recordBtn');
+    const recordIcon = document.getElementById('recordIcon');
+    const recordText = document.getElementById('recordText');
+    let isRecording = false;
+    
+    // SVG Strings
+    const micSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>`;
+    const stopSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>`;
+    const checkSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+    recordBtn.addEventListener('click', () => {
+      isRecording = !isRecording;
+      if(isRecording) {
+        recordIcon.innerHTML = stopSvg;
+        recordText.innerText = "Recording... Tap to Stop";
+        recordBtn.style.borderColor = "var(--danger)";
+        recordBtn.style.color = "var(--danger)";
+      } else {
+        recordIcon.innerHTML = checkSvg;
+        recordText.innerText = "Audio Saved. Tap to redo";
+        recordBtn.style.borderColor = "var(--success)";
+        recordBtn.style.color = "var(--success)";
+      }
+    });
+
+    // Handle Form Reset
+    document.getElementById('grievanceForm').addEventListener('reset', () => {
+      // Reset drop downs and disabled states
+      type.disabled = true;
+      district.disabled = true;
+      block.disabled = true;
+      type.options[0].text = "Waiting for category...";
+
+      // Reset Voice Button
+      isRecording = false;
+      recordIcon.innerHTML = micSvg;
+      recordText.innerText = "Tap to Record Audio Message";
+      recordBtn.style.borderColor = "var(--border)";
+      recordBtn.style.color = "var(--text-dark)";
+
+      // Reset GPS data (Wait slightly for the native reset to clear the inputs, then trigger auto-locate again)
+      setTimeout(() => {
+        document.getElementById('gpsBtn').click();
+      }, 100);
+    });
+  });
+</script>
