@@ -19,18 +19,31 @@
         </div>
 
         <div class="nav-controls">
-            <div class="language-selector">
-                <label for="lang">Language:</label>
-                <select id="lang" class="lang-dropdown">
+            <div class="language-selector notranslate" translate="no">
+                    <label for="lang">Language:</label>
+                <select id="lang" class="lang-dropdown" aria-label="Select language" data-language-selector data-i18n-ignore>
                     <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="or">Odia</option>
+                    <option value="te">Telugu</option>
+                    <option value="ta">Tamil</option>
+                    <option value="hi">Hindi</option>
+                    <option value="bn">Bengali</option>
                 </select>
             </div>
-            <a href="/login">
-            <button class="sign-in-btn">
-               <i class="fa-solid fa-right-to-bracket"></i> Sign In
-            </button>
-            </a>
+            <% if (currentUser) { %>
+                <a href="/dashboard" class="nav-item">
+                    <i class="fa-solid fa-user"></i> My Profile
+                </a>
+                <a href="/logout" class="nav-item">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </a>
+            <% } else { %>
+                <a href="/login">
+                <button class="sign-in-btn">
+                   <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </button>
+                </a>
+            <% } %>
         </div>
     </nav>

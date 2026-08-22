@@ -12,6 +12,7 @@ router.route('/login')
 	.post(userController.login);
 
 router.get('/auth/callback', userController.authCallback);
+router.post('/auth/session', userController.createSession);
 router.get('/logout', userController.logout);
 
 module.exports = router;

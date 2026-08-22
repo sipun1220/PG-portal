@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= language %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +20,23 @@
     <link rel="stylesheet" href="/css/dashhome.css">
     <link rel="stylesheet" href="/css/show.css">
     <link rel="stylesheet" href="/css/civicform.css">
+    <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
    
 </head>
-<body class="page-shell">
+<body class="page-shell" data-language="<%= language %>">
     <%- include('../includes/navbar.ejs') %>
+
+    <% if (currentUser && sessionExpiresAt) { %>
+        <div class="session-timer-row">
+            <div class="session-timer" data-session-expires="<%= sessionExpiresAt %>" role="status" aria-live="polite">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <span>Session <strong data-session-countdown>--:--:--</strong></span>
+            </div>
+        </div>
+    <% } %>
 
     <main class="container py-4 pb-5">
         <%- body %>
@@ -34,5 +44,7 @@
 
     <%- include('../includes/footer.ejs') %>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/session-timer.js" defer></script>
 </body>
 </html>

@@ -37,3 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
     showSlide(0);
     window.setInterval(() => showSlide(currentSlide + 1), 4000);
 });
+

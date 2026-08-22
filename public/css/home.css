@@ -242,6 +242,35 @@ body.page-shell:has(.hero) {
             align-items: center;
         }
 
+        .community-photos {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+            margin: 0 0 4rem;
+        }
+
+        .community-photo-card {
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            border: 1px solid rgba(24, 51, 45, 0.12);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(10, 45, 35, 0.12);
+        }
+
+        .community-photo-card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #fff;
+            transition: transform 0.35s ease;
+        }
+
+        .community-photo-card:hover img {
+            transform: scale(1.03);
+        }
+
         .stat-item {
             display: flex;
             align-items: center;
@@ -290,6 +319,9 @@ body.page-shell:has(.hero) {
             .stats {
                 flex-wrap: wrap;
                 gap: 2rem;
+            }
+            .community-photos {
+                grid-template-columns: 1fr;
             }
         }
     }

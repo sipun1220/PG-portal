@@ -1,10 +1,11 @@
 <% layout('layouts/boilerplate') %>
+<% const grievanceList = locals.grievances || []; %>
 <div class="complaints-wrapper">
   
   <header class="page-header">
     <div class="page-title">
       <h1>All Public Grievances</h1>
-      <p>Viewing all issues reported by citizens</p>
+      <p>Viewing your reported issues</p>
     </div>
     <a href="/dashboard" class="filter-btn" style="text-decoration: none;">← Back to Dashboard</a>
   </header>
@@ -24,136 +25,54 @@
   </div>
 
   <div class="complaints-grid">
-    
-    <!-- Static Example Card 1 -->
+    <% if (locals.error) { %>
+      <p><%= locals.error %></p>
+    <% } else if (grievanceList.length === 0) { %>
+      <p>No grievances have been submitted yet.</p>
+    <% } %>
+
+    <% grievanceList.forEach(function(grievance) { %>
     <div class="complaint-card">
-      <img class="complaint-photo" src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=400" alt="Pothole issue">
+      <% if (grievance.image_path) { %>
+        <img class="complaint-photo" src="<%= grievance.image_path %>" alt="Grievance evidence">
+      <% } %>
       
       <div class="complaint-content">
         <div class="complaint-top-row">
-          <h3 class="complaint-title">Massive Pothole on 5th Main</h3>
-          <span class="status-badge status-progress">In Progress</span>
+          <h3 class="complaint-title"><%= grievance.grievance_category || 'Grievance' %></h3>
+          <span class="status-badge status-reported">Submitted</span>
         </div>
         
         <div class="complaint-meta">
-          <span>📍 HSR Layout, Sector 2</span>
+          <span><%= grievance.location || 'Location not provided' %></span>
           <span>•</span>
-          <span>Today, 10:30 AM</span>
+          <span><%= new Date(grievance.created_at).toLocaleString() %></span>
         </div>
         
         <p class="complaint-description">
-          There is a very deep pothole causing traffic jams and minor accidents, especially dangerous for two-wheelers during the night. Needs immediate fixing before monsoon starts.
+          <%= grievance.description %>
         </p>
 
         <!-- NEW: Action Row with Voting System -->
         <div class="card-actions">
           <div class="vote-widget">
             <!-- In EJS, you might wrap this button in a <form> pointing to your POST route -->
-            <button class="vote-btn" title="Support this issue">
-              ▲ Upvote
-            </button>
-            <span class="vote-count">245</span>
+            <span>Submission ID: <%= grievance.submission_id %></span>
           </div>
-          <a href="#" class="view-btn">View Details →</a>
         </div>
         
         <div class="complaint-footer">
           <div class="user-info">
             <div class="user-avatar">AK</div>
             <div class="user-details">
-              <h4>Amit Kumar</h4>
-              <span>Citizen ID: 8492</span>
+              <h4><%= grievance.grievance_type || 'Citizen submission' %></h4>
+              <span>User ID: <%= grievance.user_id %></span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Static Example Card 2 -->
-    <div class="complaint-card">
-      <img class="complaint-photo" src="https://images.unsplash.com/photo-1628619379654-e6cb0f2305a2?auto=format&fit=crop&q=80&w=400" alt="Garbage issue">
-      
-      <div class="complaint-content">
-        <div class="complaint-top-row">
-          <h3 class="complaint-title">Garbage Dump Overflow</h3>
-          <span class="status-badge status-reported">Reported</span>
-        </div>
-        
-        <div class="complaint-meta">
-          <span>📍 Kukatpally, Phase 1</span>
-          <span>•</span>
-          <span>Yesterday, 4:15 PM</span>
-        </div>
-        
-        <p class="complaint-description">
-          The community dustbins haven't been cleared for the past 4 days. The waste is spilling onto the street and creating a massive health hazard for the nearby residential apartments.
-        </p>
-        
-        <!-- NEW: Action Row with Voting System -->
-        <div class="card-actions">
-          <div class="vote-widget">
-            <button class="vote-btn" title="Support this issue">
-              ▲ Upvote
-            </button>
-            <span class="vote-count">112</span>
-          </div>
-          <a href="#" class="view-btn">View Details →</a>
-        </div>
-
-        <div class="complaint-footer">
-          <div class="user-info">
-            <div class="user-avatar">SR</div>
-            <div class="user-details">
-              <h4>Sriya Reddy</h4>
-              <span>Citizen ID: 3310</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Static Example Card 3 -->
-    <div class="complaint-card">
-      <img class="complaint-photo" src="https://images.unsplash.com/photo-1541888078652-944fdd9d4aeb?auto=format&fit=crop&q=80&w=400" alt="Water supply issue">
-      
-      <div class="complaint-content">
-        <div class="complaint-top-row">
-          <h3 class="complaint-title">Broken Water Pipe</h3>
-          <span class="status-badge status-resolved">Resolved</span>
-        </div>
-        
-        <div class="complaint-meta">
-          <span>📍 Gachibowli, Block C</span>
-          <span>•</span>
-          <span>Aug 18, 2026</span>
-        </div>
-        
-        <p class="complaint-description">
-          A main water supply pipe burst near the park entrance, causing hundreds of liters of clean water to be wasted. The pressure in our homes has dropped to zero.
-        </p>
-        
-        <!-- NEW: Action Row with Voting System -->
-        <div class="card-actions">
-          <div class="vote-widget">
-            <button class="vote-btn" title="Support this issue" style="color: var(--secondary-text); pointer-events: none;">
-              ▲ Upvote
-            </button>
-            <span class="vote-count">89</span>
-          </div>
-          <a href="#" class="view-btn">View Details →</a>
-        </div>
-
-        <div class="complaint-footer">
-          <div class="user-info">
-            <div class="user-avatar">MP</div>
-            <div class="user-details">
-              <h4>Manish Patel</h4>
-              <span>Citizen ID: 1109</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <% }) %>
   </div>
 </div>

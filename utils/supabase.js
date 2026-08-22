@@ -7,10 +7,24 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error('SUPABASE_URL and SUPABASE_KEY must be set in .env');
 }
 
-module.exports = createClient(supabaseUrl, supabaseKey, {
+const clientOptions = {
     auth: {
         persistSession: false,
         autoRefreshToken: false,
         detectSessionInUrl: false
     }
+};
+
+const supabase = createClient(supabaseUrl, supabaseKey, clientOptions);
+
+const createUserClient = (accessToken) => createClient(supabaseUrl, supabaseKey, {
+    ...clientOptions,
+    global: {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }
 });
+
+module.exports = supabase;
+module.exports.createUserClient = createUserClient;

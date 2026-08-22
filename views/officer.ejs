@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG-PORTAL - Secure Officer Login</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- General Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #f8fafc;
+            color: #334155;
+            overflow-x: hidden;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- Left Side: Old Geometric Design --- */
+        .left-panel {
+            flex: 1.2;
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%) -50px 0,
+                linear-gradient(225deg, rgba(255,255,255,0.1) 25%, transparent 25%) -50px 0,
+                linear-gradient(315deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                linear-gradient(120deg, #4ad2d6 0%, #34aadc 50%, #5cb4db 100%);
+            background-size: 200% 200%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .hero-content {
+            padding: 0 4rem;
+        }
+
+        .pg-badge {
+            background-color: #000;
+            color: #fff;
+            display: inline-block;
+            padding: 10px 25px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .sub-heading {
+            font-size: 1.05rem;
+            color: #111;
+            margin-top: 15px;
+            font-weight: 700;
+        }
+
+        .main-heading {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 1.5rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+            max-width: 95%;
+        }
+
+        /* --- Right Side: Modern Login Form --- */
+        .login-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: #f8fafc;
+        }
+
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .login-header {
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.75rem;
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.icon-left {
+            position: absolute;
+            left: 1rem;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper i.icon-right {
+            position: absolute;
+            right: 1rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper i.icon-right:hover {
+            color: #3b82f6;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            background-color: #fcfcfd;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-control:focus + i.icon-left {
+            color: #3b82f6;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modern Captcha */
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f5f9;
+            padding: 0.5rem;
+            border-radius: 10px;
+            border: 1px dashed #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .captcha-box {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #334155;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiLz4KPC9zdmc+');
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            user-select: none;
+        }
+
+        .captcha-refresh {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .captcha-refresh:hover {
+            color: #2563eb;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.1s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .alert-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .alert-box i {
+            color: #3b82f6;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .alert-box p {
+            font-size: 0.8rem;
+            color: #1e3a8a;
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 968px) {
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            .left-panel {
+                padding: 4rem 1rem;
+                flex: none;
+                text-align: center;
+            }
+            .main-heading {
+                font-size: 2rem;
+                margin: 1.5rem auto 0 auto;
+            }
+            .login-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout-wrapper">
+        
+        <!-- Left Side: Old Geometric Branding -->
+        <div class="left-panel">
+            <div class="hero-content">
+                <div class="pg-badge">PG-PORTAL</div>
+                <div class="sub-heading">Centralized Public Grievance Redress And Monitoring System</div>
+                <h1 class="main-heading">SINGLE WINDOW INTERFACE FOR GRIEVANCE REDRESSAL OFFICERS AND APPELLATE AUTHORITIES</h1>
+            </div>
+        </div>
+
+        <!-- Right Side: Modern Login Container -->
+        <div class="login-section">
+            <div class="login-card">
+                
+                <div class="login-header">
+                    <h2>Office Login</h2>
+                    <p>Enter your credentials to access the portal.</p>
+                </div>
+
+                <form action="#" method="POST">
+                    
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username">Officer ID / Username</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user icon-left"></i>
+                            <input type="text" id="username" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock icon-left"></i>
+                            <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                            <i class="fa-solid fa-eye-slash icon-right" title="Toggle Password Visibility"></i>
+                        </div>
+                    </div>
+
+                    <!-- Forgot Password Link -->
+                    <a href="#" class="forgot-link">Forgot password?</a>
+
+                    <!-- Captcha Section -->
+                    <div class="form-group">
+                        <label>Security Code</label>
+                        <div class="captcha-container">
+                            <div class="captcha-box">pM1rD7</div>
+                            <button type="button" class="captcha-refresh">
+                                <i class="fa-solid fa-rotate-right"></i> Reload
+                            </button>
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-shield-halved icon-left"></i>
+                            <input type="text" class="form-control" placeholder="Enter security code" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary">Login</button>
+
+                </form>
+
+                <!-- Information Alert -->
+                <div class="alert-box">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>Please update your Email-ID and Mobile Number after LOGIN.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -31,6 +31,12 @@ module.exports.signup = async (req, res) => {
         secure: process.env.NODE_ENV === 'production',
         maxAge: data.session.expires_in * 1000
     });
+    res.cookie('sb-refresh-token', data.session.refresh_token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 3600 * 1000
+    });
 
     res.redirect('/dashboard');
 };
@@ -39,9 +45,7 @@ module.exports.authCallback = async (req, res) => {
     const { token_hash: tokenHash, type = 'signup' } = req.query;
 
     if (!tokenHash) {
-        return res.status(400).render('login.ejs', {
-            error: 'The confirmation link is invalid or incomplete.'
-        });
+        return res.render('auth-callback.ejs');
     }
 
     const { data, error } = await supabase.auth.verifyOtp({
@@ -61,8 +65,43 @@ module.exports.authCallback = async (req, res) => {
         secure: process.env.NODE_ENV === 'production',
         maxAge: data.session.expires_in * 1000
     });
+    res.cookie('sb-refresh-token', data.session.refresh_token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 3600 * 1000
+    });
 
     res.redirect('/dashboard');
+};
+
+module.exports.createSession = async (req, res) => {
+    const { access_token: accessToken, refresh_token: refreshToken } = req.body;
+
+    if (!accessToken || !refreshToken) {
+        return res.status(400).json({ error: 'Missing session tokens.' });
+    }
+
+    const { data, error } = await supabase.auth.getUser(accessToken);
+
+    if (error || !data.user) {
+        return res.status(401).json({ error: 'Invalid session.' });
+    }
+
+    res.cookie('sb-access-token', accessToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 3600 * 1000
+    });
+    res.cookie('sb-refresh-token', refreshToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 3600 * 1000
+    });
+
+    res.sendStatus(204);
 };
 
 module.exports.loginForm = (req, res) => {
@@ -83,12 +122,23 @@ module.exports.login = async (req, res) => {
         secure: process.env.NODE_ENV === 'production',
         maxAge: data.session.expires_in * 1000
     });
+    res.cookie('sb-refresh-token', data.session.refresh_token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 3600 * 1000
+    });
 
     res.redirect('/dashboard');
 };
 
 module.exports.logout = (req, res) => {
     res.clearCookie('sb-access-token', {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+    });
+    res.clearCookie('sb-refresh-token', {
         httpOnly: true,
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production'

@@ -115,6 +115,38 @@ body.page-shell {
     font-size: 0.9rem;
 }
 
+.session-timer-row {
+    display: flex;
+    justify-content: flex-end;
+    width: min(90%, 1200px);
+    margin: 0 auto;
+}
+
+.session-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    justify-content: center;
+    margin: 0 2px 0 0;
+    padding: 5px 10px;
+    border: 1px solid #f0a6a6;
+    border-radius: 6px;
+    background: #fff1f1;
+    color: #a32929;
+    font-size: 0.78rem;
+    box-shadow: 0 3px 10px rgba(145, 28, 28, 0.08);
+    white-space: nowrap;
+}
+
+.session-timer strong {
+    color: #c21f1f;
+    font-variant-numeric: tabular-nums;
+}
+
+.session-timer.session-warning strong {
+    color: #8f1111;
+}
+
 .lang-dropdown {
     background: rgba(0, 0, 0, 0.3);
     color: #fff;

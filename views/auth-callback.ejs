@@ -1,0 +1,36 @@
+<% layout('layouts/boilerplate') %>
+<div class="auth-wrapper">
+  <div class="form-container">
+    <h2>Confirming your account</h2>
+    <p id="callback-message">Please wait while we finish signing you in.</p>
+  </div>
+</div>
+
+<script>
+  (async () => {
+    const message = document.getElementById('callback-message');
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+
+    if (!accessToken || !refreshToken) {
+      message.textContent = 'The confirmation link is invalid or incomplete.';
+      return;
+    }
+
+    const response = await fetch('/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ access_token: accessToken, refresh_token: refreshToken })
+    });
+
+    if (response.ok) {
+      window.location.assign('/dashboard');
+      return;
+    }
+
+    message.textContent = 'The confirmation link has expired. Please request a new one.';
+  })().catch(() => {
+    document.getElementById('callback-message').textContent = 'Unable to complete account confirmation.';
+  });
+</script>

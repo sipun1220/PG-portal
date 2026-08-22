@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="simple-profile-wrapper">
+  <div class="simple-profile-card">
+    <h2>Account Details</h2>
+    
+    <!-- User Information -->
+    <div class="info-group">
+      <span class="info-label">Username</span>
+      <p class="info-value">@<%= typeof user !== 'undefined' ? user.username : 'johndoe123' %></p>
+    </div>
+    
+    <div class="info-group" style="border-bottom: none; margin-bottom: 0;">
+      <span class="info-label">Email</span>
+      <p class="info-value"><%= typeof user !== 'undefined' ? user.email : 'john.doe@example.com' %></p>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+      <!-- Edit Username -->
+      <button class="btn btn-secondary">Edit Username</button>
+      
+      <!-- Change Password -->
+      <button class="btn btn-primary">Change Password</button>
+    </div>
+
+    <!-- Forgot Password Link -->
+    <a class="text-link" href="/forgot-password">Forgot your password?</a>
+
+  </div>
+</div>
